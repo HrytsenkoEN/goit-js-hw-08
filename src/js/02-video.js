@@ -4,15 +4,9 @@ import throttle from "lodash.throttle";
 const iframe = document.getElementById("vimeo-player");
 const player = new Player(iframe);
 player.on('timeupdate', throttle(onPlay, 1000));
-function onPlay(e) {
-    console.log(e.seconds);
-    const time = e.seconds;
-    localStorage.setItem("videoplayer-current-time", time);
+function onPlay({seconds}) {
+        localStorage.setItem("videoplayer-current-time", seconds);
 };
-player.getVideoTitle().then(function (title) {
-    console.log('title:', title);
-});
-const currentTame = localStorage.getItem("videoplayer-current-time");
-const startTame = JSON.parse(currentTame);
-console.log(startTame);
-player.setCurrentTime(currentTame || 0);
+
+const startTame = localStorage.getItem("videoplayer-current-time");
+player.setCurrentTime(startTame || 0);
